@@ -51,7 +51,7 @@ Honorable mentions:
 ## Testing pyramid (or in this case, the testing pie chart)
 An issual representation of importance of testing is a pyramid. Of which Unit testing lies as the foundation, followed by integration testing and finally, E2E testing (or even UI testing).
 
-From such an approach we could extrapolate (as many people those), the following "importance" of each case tecnique.
+From such an approach we could extrapolate (as many people do), the following "importance" of each case tecnique.
 
 ```mermaid
 pie title Amount/Importance/Proportion test
@@ -59,9 +59,9 @@ pie title Amount/Importance/Proportion test
     "Integration" : 27
     "E2E" : 12
 ```
-This is bollocks as statistics show integration tests are actually more effective ([What went wrong with IT industry? Jim Coplien.](https://www.youtube.com/watch?v=gPP7Bleg214&ab_channel=FooCafe)).
+This is one of the many [sphexish](https://www.haggardhawks.com/post/sphexishness) behaviour we have as developers (we borrow the concept from [Jeremy Wagner](https://responsiblejs.dev/)), since statistics show other kinds of testing (e.g. *Experiment Based Testing*, see *Table 1*) are actually more effective in finding and correcting defects ([What went wrong with IT industry? Jim Coplien.](https://www.youtube.com/watch?v=gPP7Bleg214&ab_channel=FooCafe)).
 
-> (The idea of TDD is that...) bugs come from units, bugs come from methods, and so, *if the method works then the whole thing must work.* **And it's simply not true**.
+> ...(the idea is that) bugs come from units, bugs come from methods, and so, *if the method works then the whole thing must work.* **And it's simply not true**.
 >
 > *Jim Coplien.*
 
@@ -115,8 +115,8 @@ Total number of defects from all 5 sources was termed the **Defect Potential** o
 |Coding|1.75|95%|0.09|
 |Manuals|0.60|80%|0.12|
 |Bad fixes|0.40|70%|0.12|
-||
-|*Total*|5.00|85%|0.75|
+|--|--|--|--|
+|**_Total_**|**_5.00_**|**_85%_**|**_0.75_**|
 
 However, it's important to mention the variability of data. Maximum deffect potential observed for large applications (10,000 function points) is about 7.0 defects per function point. The minimum number of deffects observed for small projects (<1000 function points) is about 2.0 per function point. Maximum defect removal efficiency observed was around 99% and lowest was below 80%.
 
@@ -251,17 +251,175 @@ The `SUM(**GSC**)` is sometimes referenced as *Total Degree Influence*, or **TDI
 
 An excellent tutorial on figuring out function point analysis is provided by Alvin J. Alexander in folowing [link](https://alvinalexander.com/FunctionPoints/FunctionPoints.shtml).
 
+## Fagan (Formal) Inspections (optional)
+As promised, we'll dive (shallowly) into (one methodology for) pre-test formal code inspections. Concretely, we'll explore [*Fagan inspections*]() (after Michael Fagan).
+
+A *Fagan Inspection* is a method to find defects. It is a structured process that involves detecting defects in development documents like programming code, specifications, designs, etc.
+
+In general, the following are expected for an inspection to be considered as *formal*:
+- Meetings are scheduled
+- Participants are prepared (both in the sense that they pre-review the material and that they are specially trained as reviewers)
+- Agenda is well defined
+- They follow a well defined format
+- Results are documented
+
+### Inspection Roles
+In a Fagan Inspection, the following roles are to be filled:
+
+1. **Moderator**
+    - Responsible of monitoring the inspection process
+    - Responsible of schedule meetings, report inspection results, control meetings and follow up on the found issues.
+    - Ensures no conflcit between technical and non-technical participants
+    - Should be specially trained
+    - Must be competent programmer
+    - Could be from another team
+1. **Author/Designer/Coder**
+    - Responsible for mantaining the product being inspected (and fix the found defects)
+1. **Reader**
+    - Paraphrases or elaborates the low-level document during the inspection
+    - Summarizes the product piece by piece
+    - May be the author himself
+1. **Recorder**
+    - Keeps tracks of issues raised
+1. **Inspector/reviewer**
+    - General role, tasked to find and report issues
+1. **Tester** (optional)
+    - Responsible for writing/executing test cases
+
+### Inspection lifecycle
+A typical *Fagan inspection* consists on the following operations.
+
+1. **Planning**
+    - Preparation of materials
+    - Arranging of participants
+    - Arranging of meeting (schedule, place)
+1. **Overview**
+    - Group education of participants on the material under review 
+    - Expected throughput 500 SLOC/hr
+    - Assignment of roles
+    - Ciruculate material
+1. **Preparation**
+    - Participants perform individual review
+    - Expected throughput 100-125 SLOC/hr
+    - Individual defect detection and doubts formulation
+1. **Inspection**
+    - Reader paraphrases the design and note problems (don't solve them)
+    - Expected throughput of 130-150 SLOC/hr
+1. **Rework**
+    - Resolve defects by the author
+    - Expected throughput 16-20 hrs per 1000 SLOC
+1. **Follow up**
+    - Moderator is responsible of verifying all defects were fixed in the rework phase
+    - Verification that no new defects are inserted
+    - If more than 5% was reworked, products is re-inspected by original inspection team
+
+```mermaid
+flowchart LR
+x(Inspection Life Cycle)
+        a[Planning]-->b[Overview]
+        b-->c[Preparation]
+        c-->d[Inspection]
+        d-->e[Rework]
+        e-->a
+        e-->f[Follow up]
+```
+
+### Inspection Guidelines
+In pursuit of a succesful inspection process, team should ideally follow the guidelines listed below
+
+1. **Clear Agenda**
+    - Meeting should be conducted with a clear agenda in mind
+    - Stick to the agenda (prevent drift)
+    - **Identify problems, but don't try to solve them**
+1. **Mutual Respect**
+    - There should be mutual respect among the team members
+    - Ensure free flow of ideas
+    - Don't start until everyone is present (and don't go ahead if reviewers are missing)
+    - Review the product, not it's author (keep comments constructive)
+    - Inspection is not confined to pointing defects, focus as well in the product's positives
+1. **Continuity**
+    - If members find even the slightest faults, from the beginning of the code, they must be dealt immediately
+1. **Checklist**
+    - Use a checklist of questions
+    - Keep a checklist of issues
+1. **Plan Accordingly**
+    - Inspection should be budgeted, planned and scheduled
+1. **Clear Definitions**
+    - A well defined process should be adopted
+    - Define explicitly entry and exit criterias
+1. **Correct Preparation**
+    - Team member should possess appropiate knowledge and actively participate in the inspections
+    - **To carry out the various roles of the inspection process, necessary training should be provided**
+1. **Review the review process**
+    - Review the review process itself from time to time
+
+### Inspection Methodologies and Constraints
+Keep the following constraints in mind:
+1. **Size**
+    - Add enough people so that all relevant expertise is available
+    - Normally between 4-7 persons
+1. **Duration**
+    - Keep each stage below 2 hours in time
+1. **Exit Criteria**
+    - Expected criteria should be well defined and of knowledge of all reviewers
+    - All reviewers must agree with the result
+1. **Outputs**
+    - All findings should be documented
+    - **Produce a detailed list of issues**
+    - Summary report is recommended
+1. **Scope**
+    - Focus on a small part of a design
+    - 130-150 SLOC/hour is expected
+1. **Timing**
+    - Examine a product once the author has finished it
+    - Not to soon (author hasn't finished)
+    - Not to late (errors are now costly to fix)
+1. **Purpose**
+    - Keep the purpose in mind
+    - Gains come from fixing the process
+    - Collect data to prevent errors repetition
+1. **Reviewers Choice** 
+    - Keep the reviewers as one of the following
+        1. Specialists in reviewing (e.g. QA people)
+        1. People from the same team as author
+        1. People invited for specialist expertise
+        1. People with an interest in the product
+        1. Visitors/people from other parts og the organization that can contribute
+    - Exclude from reviewing process the following people:
+        1. Anyone responsible for reviewing the author (line manager, appraiser, etc)
+        1. Anyone with personality clashes with other reviewers
+        1. Anyone not qualified to contribute
+        1. Anyone whose presence creates a conflict of interest
+
+Some methodologies you can use to vary the review process are:
+
+1. **Checklist** (base approach)
+    - Use a previously agreed checklist of question/issues
+    - Review is structured by the issues on the list
+1. **Walkthrough**
+    - One person presents the product step by step
+    - Review is structured by the product
+1. **Round Robin**
+    - Each reviewer in turn gets to raise an issue
+    - Review is structured by the review team
+1. **Speed Review**
+    - Each reviewer gets 3 minutes to review a chunk, then passes to the next reviewer
+    - Review is loosely structured but reviewers comprehensibility is assesed
+
 ## TDD
 >Test-first fundamentalism is like abstinence-only sex ed: An unrealistic, ineffective morality campaign for self-loathing and shaming
 >
 >*David Heinemeier Hansson*
 
 ## Bibliography
-1. [Unit testing. Wikipedia](https://en.wikipedia.org/wiki/Unit_testing#:~:text=Unit%20tests%20are%20typically%20automated,an%20individual%20function%20or%20procedure.)
+1. [Unit testing. Wikipedia.](https://en.wikipedia.org/wiki/Unit_testing#:~:text=Unit%20tests%20are%20typically%20automated,an%20individual%20function%20or%20procedure.)
 1. [UnitTest. Martin Fowler.](https://martinfowler.com/bliki/UnitTest.html)
 1. [What went wrong with IT industry? Jim Coplien.](https://www.youtube.com/watch?v=gPP7Bleg214&ab_channel=FooCafe)
-1. [Software Defect Removal Efficiency](https://www.academia.edu/56742144/Software_defect_removal_efficiency)
+1. [Responsivel Javascript. Jeremy Wagner.](https://responsiblejs.dev/)
+1. [Software Defect Removal Efficiency. Capers Jones.](https://www.academia.edu/56742144/Software_defect_removal_efficiency)
 1. [How to Determine Your Software Application Size Using Function Point Analysis. Alvin J. Alexander.](https://alvinalexander.com/FunctionPoints/FunctionPoints.shtml)
+1. [Formal Inspections (presentation slides). University of Toronto](http://www.cs.toronto.edu/~campbell/340/05w/utm/lectures/06-inspections2-up.pdf)
+1. [Fagan inspection. Wikipedia.](https://en.wikipedia.org/wiki/Fagan_inspection#:~:text=A%20Fagan%20inspection%20is%20a,inventor%20of%20formal%20software%20inspections.)
 1. [The little Mocker. Robert Martin.](https://blog.cleancoder.com/uncle-bob/2014/05/14/TheLittleMocker.html)
 1. [Mocks Aren't Stubs. Martin Fowler.](https://martinfowler.com/articles/mocksArentStubs.html)
 1. [Uncle Bob and Jim Coplien debate TDD.](https://www.youtube.com/watch?v=KtHQGs3zFAM&ab_channel=toalexsmail)
